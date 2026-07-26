@@ -123,15 +123,20 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
 
   const handleMouseUp = () => setIsDragging(false);
 
-  // Close Lightbox on ESC key
+  // Close Lightbox on ESC key and lock body scroll
   useEffect(() => {
+    if (!isLightboxOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isLightboxOpen) {
+      if (e.key === 'Escape') {
         setIsLightboxOpen(false);
       }
     };
+    document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isLightboxOpen]);
 
   return (
@@ -153,7 +158,7 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
             referrerPolicy="no-referrer"
             className="max-w-full max-h-full object-contain transition-transform duration-200 ease-out"
             style={{
-              transform: isHovering ? 'scale(1.4)' : 'scale(1)',
+              transform: isHovering && (typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches) ? 'scale(1.4)' : 'scale(1)',
               transformOrigin: `${mousePos.x}% ${mousePos.y}%`,
             }}
           />
@@ -161,26 +166,28 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
 
         {/* Hover Cue Badge */}
         <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1.5 opacity-90 group-hover:opacity-100 transition-opacity pointer-events-none">
-          <ZoomIn className="w-3.5 h-3.5 text-red-400" />
+          <ZoomIn className="w-3.5 h-3.5 text-red-400" aria-hidden="true" />
           <span>{isHovering ? 'Explorando Zoom' : 'Clic para Pantalla Completa'}</span>
         </div>
 
         {/* OEM Authenticity Badge */}
         <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-xs border border-slate-200/90 text-slate-800 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md flex items-center gap-1 pointer-events-none">
-          <ShieldCheck className="w-3 h-3 text-emerald-600" />
+          <ShieldCheck className="w-3 h-3 text-emerald-600" aria-hidden="true" />
           <span>OEM #{part.oemNumber}</span>
         </div>
 
         {/* Fullscreen Button Icon Overlay */}
         <button
+          type="button"
           onClick={(e) => {
             e.stopPropagation();
             setIsLightboxOpen(true);
           }}
-          className="absolute bottom-3 right-3 p-2 bg-white/90 hover:bg-white text-slate-800 hover:text-[#E60012] rounded-xl shadow-md border border-slate-200 transition-colors cursor-pointer"
+          aria-label="Ampliar imagen en pantalla completa"
+          className="absolute bottom-3 right-3 w-11 h-11 flex items-center justify-center bg-white/90 hover:bg-white text-slate-800 hover:text-[#E60012] rounded-xl shadow-md border border-slate-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
           title="Ampliar imagen en pantalla completa"
         >
-          <Maximize2 className="w-4 h-4" />
+          <Maximize2 className="w-4 h-4" aria-hidden="true" />
         </button>
       </div>
 
@@ -192,9 +199,11 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
             return (
               <button
                 key={img.id}
+                type="button"
                 onClick={() => setSelectedIndex(idx)}
                 title={img.label}
-                className={`group relative rounded-xl p-1 border transition-all cursor-pointer shrink-0 w-16 h-16 sm:w-20 sm:h-20 ${
+                aria-label={`Seleccionar ${img.label}`}
+                className={`group relative rounded-xl p-1 border transition-all cursor-pointer shrink-0 w-16 h-16 sm:w-20 sm:h-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] ${
                   isSelected
                     ? 'border-[#E60012] bg-red-50/50 ring-2 ring-[#E60012]/30 shadow-xs scale-105'
                     : 'border-slate-200 bg-slate-50 hover:bg-white hover:border-slate-300'
@@ -217,6 +226,9 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
       {/* 3. LIGHTBOX FULLSCREEN ZOOM MODAL (USING PORTAL TO BODY) */}
       {isLightboxOpen && createPortal(
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Vista ampliada interactiva de imagen de producto"
           className="fixed inset-0 z-[9999] bg-slate-950/95 backdrop-blur-md flex flex-col justify-between p-4 sm:p-6 select-none animate-in fade-in duration-200"
           onMouseUp={handleMouseUp}
           onClick={() => setIsLightboxOpen(false)}
@@ -240,39 +252,47 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
             <div className="flex items-center gap-2">
               <div className="flex items-center bg-slate-800 rounded-xl p-1 border border-slate-700">
                 <button
+                  type="button"
                   onClick={handleZoomOut}
                   disabled={lightboxScale <= 1}
-                  className="p-1.5 text-slate-300 hover:text-white disabled:opacity-30 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer"
+                  aria-label="Reducir zoom"
+                  className="w-11 h-11 flex items-center justify-center text-slate-300 hover:text-white disabled:opacity-30 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
                   title="Reducir zoom (-)"
                 >
-                  <ZoomOut className="w-4 h-4" />
+                  <ZoomOut className="w-4 h-4" aria-hidden="true" />
                 </button>
-                <span className="font-mono text-xs font-bold px-2 text-slate-200">
+                <span className="font-mono text-xs font-bold px-2 text-slate-200 min-w-[48px] text-center">
                   {Math.round(lightboxScale * 100)}%
                 </span>
                 <button
+                  type="button"
                   onClick={handleZoomIn}
                   disabled={lightboxScale >= 4}
-                  className="p-1.5 text-slate-300 hover:text-white disabled:opacity-30 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer"
+                  aria-label="Aumentar zoom"
+                  className="w-11 h-11 flex items-center justify-center text-slate-300 hover:text-white disabled:opacity-30 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
                   title="Aumentar zoom (+)"
                 >
-                  <ZoomIn className="w-4 h-4" />
+                  <ZoomIn className="w-4 h-4" aria-hidden="true" />
                 </button>
                 <button
+                  type="button"
                   onClick={handleResetZoom}
-                  className="p-1.5 text-slate-400 hover:text-slate-200 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer ml-1"
+                  aria-label="Restablecer zoom"
+                  className="w-11 h-11 flex items-center justify-center text-slate-400 hover:text-slate-200 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
                   title="Restablecer tamaño"
                 >
-                  <RotateCcw className="w-4 h-4" />
+                  <RotateCcw className="w-4 h-4" aria-hidden="true" />
                 </button>
               </div>
 
               <button
+                type="button"
                 onClick={() => setIsLightboxOpen(false)}
-                className="p-2 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-colors cursor-pointer ml-2 shadow-md"
+                aria-label="Cerrar vista interactiva"
+                className="w-11 h-11 flex items-center justify-center bg-red-600 hover:bg-red-700 text-white rounded-xl transition-colors cursor-pointer ml-2 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 title="Cerrar vista interactiva (ESC)"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -287,14 +307,16 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
             {/* Previous Image Button */}
             {images.length > 1 && (
               <button
+                type="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   handlePrevImage();
                 }}
-                className="absolute left-2 sm:left-6 z-20 p-3 bg-slate-900/90 hover:bg-slate-800 text-white rounded-2xl border border-slate-700 shadow-xl transition-all cursor-pointer"
+                aria-label="Imagen anterior"
+                className="absolute left-2 sm:left-6 z-20 w-11 h-11 flex items-center justify-center bg-slate-900/90 hover:bg-slate-800 text-white rounded-2xl border border-slate-700 shadow-xl transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
                 title="Imagen Anterior"
               >
-                <ChevronLeft className="w-6 h-6" />
+                <ChevronLeft className="w-6 h-6" aria-hidden="true" />
               </button>
             )}
 
@@ -318,14 +340,16 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
             {/* Next Image Button */}
             {images.length > 1 && (
               <button
+                type="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleNextImage();
                 }}
-                className="absolute right-2 sm:right-6 z-20 p-3 bg-slate-900/90 hover:bg-slate-800 text-white rounded-2xl border border-slate-700 shadow-xl transition-all cursor-pointer"
+                aria-label="Siguiente imagen"
+                className="absolute right-2 sm:right-6 z-20 w-11 h-11 flex items-center justify-center bg-slate-900/90 hover:bg-slate-800 text-white rounded-2xl border border-slate-700 shadow-xl transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
                 title="Siguiente Imagen"
               >
-                <ChevronRight className="w-6 h-6" />
+                <ChevronRight className="w-6 h-6" aria-hidden="true" />
               </button>
             )}
           </div>
@@ -338,12 +362,14 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
             {images.map((img, idx) => (
               <button
                 key={img.id}
+                type="button"
                 onClick={() => {
                   setSelectedIndex(idx);
                   handleResetZoom();
                 }}
+                aria-label={`Ver ${img.label}`}
                 title={img.label}
-                className={`w-14 h-14 rounded-xl p-1 bg-slate-950 border transition-all cursor-pointer shrink-0 overflow-hidden ${
+                className={`w-14 h-14 rounded-xl p-1 bg-slate-950 border transition-all cursor-pointer shrink-0 overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] ${
                   idx === selectedIndex
                     ? 'border-red-500 ring-2 ring-red-500/50 scale-105 shadow-lg'
                     : 'border-slate-700 opacity-70 hover:opacity-100'

@@ -66,30 +66,42 @@ export const SearchableModelSelect: React.FC<SearchableModelSelectProps> = ({
   return (
     <div className="relative w-full" ref={containerRef}>
       {label && (
-        <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">
+        <label htmlFor="searchable-model-select-input" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
           {label}
         </label>
       )}
 
       {/* Main Trigger Button / Search Bar */}
-      <div
+      <button
+        type="button"
+        role="combobox"
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        aria-label={label || "Seleccionar modelo"}
+        disabled={disabled}
         onClick={handleOpen}
-        className={`w-full flex items-center justify-between p-2.5 bg-white border rounded-xl text-xs font-bold transition-all cursor-pointer ${
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            handleOpen();
+          }
+        }}
+        className={`w-full flex items-center justify-between p-2.5 bg-white border rounded-xl text-xs font-bold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] ${
           isOpen
             ? 'border-[#E60012] ring-2 ring-[#E60012]/15 shadow-sm'
             : selectedModel
             ? 'border-slate-300 hover:border-slate-400 text-slate-900 bg-white'
-            : 'border-slate-200 hover:border-slate-300 text-slate-400 bg-slate-50/80'
+            : 'border-slate-300 hover:border-slate-400 text-slate-600 bg-slate-50/80'
         } ${disabled ? 'opacity-50 cursor-not-allowed bg-slate-100' : ''}`}
       >
         <div className="flex items-center gap-2 truncate pr-1">
-          <Bike className={`w-4 h-4 shrink-0 ${selectedModel ? 'text-[#E60012]' : 'text-slate-400'}`} />
+          <Bike className={`w-4 h-4 shrink-0 ${selectedModel ? 'text-[#E60012]' : 'text-slate-500'}`} />
           {selectedModel ? (
             <span className="text-slate-900 font-extrabold text-xs truncate">
               {selectedModel.name}
             </span>
           ) : (
-            <span className="text-slate-400 font-normal text-xs truncate">
+            <span className="text-slate-600 font-normal text-xs truncate">
               {placeholder}
             </span>
           )}
@@ -100,39 +112,42 @@ export const SearchableModelSelect: React.FC<SearchableModelSelectProps> = ({
             <button
               type="button"
               onClick={handleClear}
-              className="p-1 text-slate-400 hover:text-slate-600 rounded-md hover:bg-slate-100 transition-colors"
+              className="p-1 text-slate-500 hover:text-slate-700 rounded-md hover:bg-slate-100 transition-colors"
               title="Limpiar selección"
+              aria-label="Limpiar selección de modelo"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           )}
           <ChevronDown
-            className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
+            className={`w-4 h-4 text-slate-500 transition-transform duration-200 ${
               isOpen ? 'rotate-180 text-[#E60012]' : ''
             }`}
           />
         </div>
-      </div>
+      </button>
 
       {/* Autocomplete Dropdown Panel */}
       {isOpen && (
-        <div className="absolute left-0 right-0 top-full mt-1.5 bg-white border border-slate-200 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-150 min-w-[240px]">
+        <div className="absolute left-0 right-0 top-full mt-1.5 bg-white border border-slate-300 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-150 min-w-[240px]">
           {/* Internal Search Input */}
-          <div className="p-2 border-b border-slate-100 bg-slate-50/80 flex items-center gap-2">
-            <Search className="w-4 h-4 text-slate-400 shrink-0 ml-1" />
+          <div className="p-2 border-b border-slate-200 bg-slate-50/80 flex items-center gap-2">
+            <Search className="w-4 h-4 text-slate-500 shrink-0 ml-1" />
             <input
+              id="searchable-model-select-input"
               ref={inputRef}
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Escribe para buscar (ej. V-Strom, GSX, GN)..."
-              className="w-full bg-transparent text-xs text-slate-900 placeholder:text-slate-400 font-semibold focus:outline-none py-1"
+              className="w-full bg-transparent text-xs text-slate-900 placeholder:text-slate-500 font-semibold focus:outline-none py-1"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="p-1 text-slate-400 hover:text-slate-600 rounded"
+                aria-label="Limpiar texto de búsqueda"
+                className="p-1 text-slate-500 hover:text-slate-700 rounded"
               >
                 <X className="w-3 h-3" />
               </button>

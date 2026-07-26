@@ -7,8 +7,8 @@ interface NavbarProps {
   cartCount: number;
   searchQuery: string;
   setSearchQuery: (q: string) => void;
-  activeTab: 'catalog' | 'garage' | 'schematics' | 'orders';
-  setActiveTab: (tab: 'catalog' | 'garage' | 'schematics' | 'orders') => void;
+  activeTab: 'catalog' | 'garage' | 'schematics' | 'orders' | 'product-page';
+  setActiveTab: (tab: 'catalog' | 'garage' | 'schematics' | 'orders' | 'product-page') => void;
   onOpenGarageModal: () => void;
   onOpenCart: () => void;
   onOpenAI: () => void;
@@ -28,7 +28,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
-  const handleTabClick = (tab: 'catalog' | 'garage' | 'schematics' | 'orders') => {
+  const handleTabClick = (tab: 'catalog' | 'garage' | 'schematics' | 'orders' | 'product-page') => {
     setActiveTab(tab);
     setMobileMenuOpen(false);
   };
@@ -39,9 +39,18 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
           
           {/* Logo */}
-          <div 
-            className="flex items-center gap-2.5 shrink-0 cursor-pointer" 
+          <button 
+            type="button"
+            role="button"
+            aria-label="Ir al Catálogo Suzuki Parts"
             onClick={() => handleTabClick('catalog')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleTabClick('catalog');
+              }
+            }}
+            className="flex items-center gap-2.5 shrink-0 cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] rounded-xl p-1"
           >
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#E60012] flex items-center justify-center text-white font-black text-lg sm:text-xl shadow-sm tracking-tighter shrink-0">
               S
@@ -52,13 +61,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
               <span className="text-slate-900 font-extrabold text-[10px] sm:text-xs tracking-widest block leading-tight uppercase whitespace-nowrap">GENUINE PARTS</span>
             </div>
-          </div>
+          </button>
 
           {/* Desktop Search Bar */}
           <div className="flex-1 max-w-md hidden md:block">
             <div className="relative">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <label htmlFor="navbar-desktop-search" className="sr-only">Buscar por Ref. OEM o Nombre</label>
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" aria-hidden="true" />
               <input
+                id="navbar-desktop-search"
                 type="text"
                 value={searchQuery}
                 onChange={(e) => {
@@ -66,53 +77,57 @@ export const Navbar: React.FC<NavbarProps> = ({
                   if (activeTab !== 'catalog') setActiveTab('catalog');
                 }}
                 placeholder="Buscar por Ref. OEM o Nombre (Ej. 13780-06G00)..."
-                className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#E60012]/20 focus:border-[#E60012] transition-all"
+                className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#E60012]/20 focus:border-[#E60012] transition-all"
               />
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1.5">
+          <nav className="hidden lg:flex items-center gap-1.5" aria-label="Navegación principal">
             <button
+              type="button"
               onClick={() => handleTabClick('catalog')}
-              className={`px-3 py-2 rounded-lg text-xs font-semibold tracking-wide uppercase transition-colors ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold tracking-wide uppercase transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] ${
                 activeTab === 'catalog' 
                   ? 'text-[#E60012] bg-red-50 border-b-2 border-[#E60012]' 
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               Catálogo
             </button>
 
             <button
+              type="button"
               onClick={() => handleTabClick('garage')}
-              className={`px-3 py-2 rounded-lg text-xs font-semibold tracking-wide uppercase transition-colors ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold tracking-wide uppercase transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] ${
                 activeTab === 'garage' 
                   ? 'text-[#E60012] bg-red-50 border-b-2 border-[#E60012]' 
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               Garaje
             </button>
 
             <button
+              type="button"
               onClick={() => handleTabClick('schematics')}
-              className={`px-3 py-2 rounded-lg text-xs font-semibold tracking-wide uppercase transition-colors flex items-center gap-1.5 ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold tracking-wide uppercase transition-colors flex items-center gap-1.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] ${
                 activeTab === 'schematics' 
                   ? 'text-[#E60012] bg-red-50 border-b-2 border-[#E60012]' 
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
-              <Layers className="w-3.5 h-3.5" />
+              <Layers className="w-3.5 h-3.5" aria-hidden="true" />
               Despieces
             </button>
 
             <button
+              type="button"
               onClick={() => handleTabClick('orders')}
-              className={`px-3 py-2 rounded-lg text-xs font-semibold tracking-wide uppercase transition-colors ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold tracking-wide uppercase transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] ${
                 activeTab === 'orders' 
                   ? 'text-[#E60012] bg-red-50 border-b-2 border-[#E60012]' 
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               Pedidos
@@ -124,23 +139,27 @@ export const Navbar: React.FC<NavbarProps> = ({
             
             {/* Mobile Search Toggle Button */}
             <button
+              type="button"
               onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
-              className="md:hidden p-2 text-slate-700 hover:text-[#E60012] hover:bg-slate-50 rounded-lg transition-colors cursor-pointer"
+              aria-label="Buscar repuestos"
+              className="md:hidden w-11 h-11 flex items-center justify-center text-slate-700 hover:text-[#E60012] hover:bg-slate-50 rounded-xl transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
               title="Buscar repuestos"
             >
-              <Search className="w-5 h-5" />
+              <Search className="w-5 h-5" aria-hidden="true" />
             </button>
 
             {/* Active Garage Badge Button */}
             <button
+              type="button"
               onClick={onOpenGarageModal}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${
+              aria-label="Abrir gestión de garaje"
+              className={`flex items-center gap-1.5 px-3 py-2 min-h-[44px] rounded-xl border text-xs font-bold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] ${
                 activeMotorcycle
                   ? 'bg-slate-900 text-white border-slate-900 hover:bg-slate-800 shadow-xs'
-                  : 'bg-amber-50 text-amber-900 border-amber-300 hover:bg-amber-100 animate-pulse'
+                  : 'bg-amber-50 text-amber-950 border-amber-300 hover:bg-amber-100'
               }`}
             >
-              <Wrench className="w-3.5 h-3.5 text-red-400 shrink-0" />
+              <Wrench className="w-4 h-4 text-red-400 shrink-0" aria-hidden="true" />
               <div className="text-left leading-tight hidden xl:block">
                 <span className="text-[9px] uppercase tracking-wider text-slate-400 block font-normal">GARAJE ACTIVO</span>
                 <span className="truncate max-w-[100px] inline-block font-semibold">
@@ -154,21 +173,24 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* AI Assistant Button */}
             <button
+              type="button"
               onClick={onOpenAI}
-              className="p-2 text-slate-700 hover:text-[#E60012] hover:bg-slate-50 rounded-lg border border-slate-200 transition-colors flex items-center gap-1 text-xs font-medium cursor-pointer"
+              aria-label="Abrir asistente técnico de IA Suzuki"
+              className="min-h-[44px] px-3 text-slate-800 hover:text-[#E60012] hover:bg-slate-50 rounded-xl border border-slate-300 transition-colors flex items-center gap-1.5 text-xs font-medium cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
               title="Asistente Técnico Suzuki AI"
             >
-              <Sparkles className="w-4 h-4 text-[#E60012]" />
+              <Sparkles className="w-4 h-4 text-[#E60012]" aria-hidden="true" />
               <span className="hidden sm:inline font-semibold text-xs">Asistente AI</span>
             </button>
 
             {/* Cart Button */}
             <button
+              type="button"
               onClick={onOpenCart}
-              className="relative p-2 text-slate-700 hover:text-[#E60012] hover:bg-slate-50 rounded-lg transition-colors cursor-pointer shrink-0"
-              aria-label="Ver Carrito"
+              className="relative w-11 h-11 flex items-center justify-center text-slate-800 hover:text-[#E60012] hover:bg-slate-50 rounded-xl transition-colors cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
+              aria-label={`Ver Carrito (${cartCount} repuestos)`}
             >
-              <ShoppingBag className="w-5 h-5" />
+              <ShoppingBag className="w-5 h-5" aria-hidden="true" />
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#E60012] text-white text-[11px] font-black flex items-center justify-center shadow-xs">
                   {cartCount}
@@ -178,11 +200,12 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Mobile Menu Hamburger Toggle */}
             <button
+              type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer ml-0.5"
-              aria-label="Abrir Menú"
+              className="lg:hidden w-11 h-11 flex items-center justify-center text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer ml-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
+              aria-label={mobileMenuOpen ? "Cerrar Menú" : "Abrir Menú"}
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
             </button>
 
           </div>
@@ -190,10 +213,12 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Mobile Search Expandable Bar */}
         {mobileSearchOpen && (
-          <div className="md:hidden pb-3 pt-1 border-t border-slate-100 animate-in fade-in slide-in-from-top-1 duration-150">
+          <div className="md:hidden pb-3 pt-1 border-t border-slate-200 animate-in fade-in slide-in-from-top-1 duration-150">
             <div className="relative">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <label htmlFor="navbar-mobile-search" className="sr-only">Buscar por Ref. OEM o Nombre</label>
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" aria-hidden="true" />
               <input
+                id="navbar-mobile-search"
                 type="text"
                 value={searchQuery}
                 onChange={(e) => {
@@ -202,7 +227,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }}
                 placeholder="Buscar por Ref. OEM o Nombre..."
                 autoFocus
-                className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#E60012]/20 focus:border-[#E60012]"
+                className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#E60012]/20 focus:border-[#E60012]"
               />
             </div>
           </div>

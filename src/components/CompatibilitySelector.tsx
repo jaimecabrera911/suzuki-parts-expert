@@ -58,12 +58,12 @@ export const CompatibilitySelector: React.FC<CompatibilitySelectorProps> = ({
         <div className="bg-slate-900 text-white rounded-xl p-5 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-slate-800">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
-              <ShieldCheck className="w-7 h-7" />
+              <ShieldCheck className="w-7 h-7" aria-hidden="true" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold uppercase text-emerald-400 tracking-wider">COMPATIBILIDAD ACTIVA GUARANTEED</span>
-                <span className="bg-emerald-500/10 text-emerald-300 text-[10px] px-2 py-0.5 rounded-full font-mono font-bold">100% OK</span>
+                <span className="bg-emerald-500/10 text-emerald-300 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">100% OK</span>
               </div>
               <h3 className="text-lg font-black text-white mt-0.5">
                 {activeMotorcycle.brand} {activeMotorcycle.modelName} ({activeMotorcycle.year})
@@ -76,18 +76,20 @@ export const CompatibilitySelector: React.FC<CompatibilitySelectorProps> = ({
           <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
             {onGoToProducts && (
               <button
+                type="button"
                 onClick={onGoToProducts}
-                className="px-4 py-2 bg-[#E60012] hover:bg-red-700 text-white font-bold text-xs rounded-lg transition-colors flex items-center gap-1.5 shadow-xs"
+                className="px-4 py-2.5 min-h-[44px] bg-[#E60012] hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 <span>Ver Repuestos Garantizados</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
               </button>
             )}
             <button
+              type="button"
               onClick={onClearMotorcycle}
-              className="text-xs font-semibold px-3 py-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1.5"
+              className="text-xs font-semibold px-3 py-2.5 min-h-[44px] text-slate-300 hover:text-white hover:bg-slate-800 rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
-              <RefreshCw className="w-3.5 h-3.5" />
+              <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
               Cambiar Moto
             </button>
           </div>
@@ -111,18 +113,18 @@ export const CompatibilitySelector: React.FC<CompatibilitySelectorProps> = ({
           MARCA
         </div>
         <div className="w-8 h-0.5 bg-[#E60012]"></div>
-        <div className={`flex items-center gap-1.5 text-xs font-bold ${selectedModelId ? 'text-slate-800' : 'text-slate-400'}`}>
-          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${selectedModelId ? 'bg-[#E60012] text-white' : 'bg-slate-200 text-slate-600'}`}>2</span>
+        <div className={`flex items-center gap-1.5 text-xs font-bold ${selectedModelId ? 'text-slate-800' : 'text-slate-600'}`}>
+          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${selectedModelId ? 'bg-[#E60012] text-white' : 'bg-slate-200 text-slate-700'}`}>2</span>
           MODELO
         </div>
         <div className={`w-8 h-0.5 ${selectedModelId ? 'bg-[#E60012]' : 'bg-slate-200'}`}></div>
-        <div className={`flex items-center gap-1.5 text-xs font-bold ${selectedYear ? 'text-slate-800' : 'text-slate-400'}`}>
-          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${selectedYear ? 'bg-[#E60012] text-white' : 'bg-slate-200 text-slate-600'}`}>3</span>
+        <div className={`flex items-center gap-1.5 text-xs font-bold ${selectedYear ? 'text-slate-800' : 'text-slate-600'}`}>
+          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${selectedYear ? 'bg-[#E60012] text-white' : 'bg-slate-200 text-slate-700'}`}>3</span>
           AÑO
         </div>
         <div className={`w-8 h-0.5 ${selectedYear ? 'bg-[#E60012]' : 'bg-slate-200'}`}></div>
-        <div className={`flex items-center gap-1.5 text-xs font-bold ${selectedVersion ? 'text-slate-800' : 'text-slate-400'}`}>
-          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${selectedVersion ? 'bg-[#E60012] text-white' : 'bg-slate-200 text-slate-600'}`}>4</span>
+        <div className={`flex items-center gap-1.5 text-xs font-bold ${selectedVersion ? 'text-slate-800' : 'text-slate-600'}`}>
+          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${selectedVersion ? 'bg-[#E60012] text-white' : 'bg-slate-200 text-slate-700'}`}>4</span>
           VERSIÓN
         </div>
       </div>
@@ -132,9 +134,9 @@ export const CompatibilitySelector: React.FC<CompatibilitySelectorProps> = ({
         
         {/* Step 1: Marca */}
         <div className="border border-red-200 bg-red-50/50 rounded-xl p-3.5 relative">
-          <div className="flex items-center justify-between text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">
+          <div className="flex items-center justify-between text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
             <span>MARCA</span>
-            <Check className="w-3.5 h-3.5 text-[#E60012]" />
+            <Check className="w-3.5 h-3.5 text-[#E60012]" aria-hidden="true" />
           </div>
           <div className="font-extrabold text-slate-900 text-sm">
             SUZUKI
@@ -158,17 +160,18 @@ export const CompatibilitySelector: React.FC<CompatibilitySelectorProps> = ({
 
         {/* Step 3: Año */}
         <div className={`border rounded-xl p-3.5 transition-all ${selectedYear ? 'border-slate-300 bg-white' : 'border-slate-200 bg-slate-50'}`}>
-          <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">
+          <label htmlFor="compatibility-year-select" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
             AÑO
           </label>
           <select
+            id="compatibility-year-select"
             value={selectedYear}
             disabled={!currentModelObj}
             onChange={(e) => {
               setSelectedYear(Number(e.target.value));
               setSelectedVersion('');
             }}
-            className="w-full bg-transparent font-bold text-slate-900 text-sm focus:outline-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-full bg-transparent font-bold text-slate-900 text-sm focus:outline-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-[#E60012] rounded"
           >
             <option value="">{currentModelObj ? '-- Seleccionar Año --' : '---'}</option>
             {currentModelObj?.years.map(y => (
@@ -179,14 +182,15 @@ export const CompatibilitySelector: React.FC<CompatibilitySelectorProps> = ({
 
         {/* Step 4: Versión */}
         <div className={`border rounded-xl p-3.5 transition-all ${selectedVersion ? 'border-slate-300 bg-white' : 'border-slate-200 bg-slate-50'}`}>
-          <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">
+          <label htmlFor="compatibility-version-select" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
             VERSIÓN
           </label>
           <select
+            id="compatibility-version-select"
             value={selectedVersion}
             disabled={!selectedYear || !currentModelObj}
             onChange={(e) => setSelectedVersion(e.target.value)}
-            className="w-full bg-transparent font-bold text-slate-900 text-sm focus:outline-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-full bg-transparent font-bold text-slate-900 text-sm focus:outline-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-[#E60012] rounded"
           >
             <option value="">{selectedYear ? '-- Seleccionar Versión --' : '---'}</option>
             {currentModelObj?.versions.map(v => (
@@ -200,12 +204,13 @@ export const CompatibilitySelector: React.FC<CompatibilitySelectorProps> = ({
       {/* Action Submit Button */}
       <div className="mt-6 flex justify-end">
         <button
+          type="button"
           onClick={handleApply}
           disabled={!isFormComplete}
-          className="w-full sm:w-auto px-8 py-3.5 bg-[#E60012] hover:bg-red-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-black text-sm uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+          className="w-full sm:w-auto px-8 py-3.5 min-h-[44px] bg-[#E60012] hover:bg-red-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-black text-sm uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
         >
           <span>Buscar Repuestos Garantizados</span>
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-4 h-4" aria-hidden="true" />
         </button>
       </div>
 

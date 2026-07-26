@@ -15,6 +15,16 @@ export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [customQuery, setCustomQuery] = useState('');
 
+  // Handle Escape key
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
   const handleCustomSend = (e: React.FormEvent) => {
     e.preventDefault();
     let text = `Hola Suzuki Parts Expert 👋, `;
@@ -39,7 +49,12 @@ export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({
     <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end">
       {/* Popover Card */}
       {isOpen && (
-        <div className="mb-3 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
+        <div 
+          role="dialog"
+          aria-modal="false"
+          aria-label="Asistente de consulta rápida WhatsApp"
+          className="mb-3 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200"
+        >
           {/* Header */}
           <div className="bg-[#075E54] text-white p-4 flex items-center justify-between relative">
             <div className="flex items-center gap-3">
@@ -54,16 +69,18 @@ export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({
                   Suzuki Parts Expert
                 </h4>
                 <p className="text-[11px] text-emerald-100 flex items-center gap-1 mt-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-300"></span>
                   En línea | Asesoría Técnica Directa
                 </p>
               </div>
             </div>
             <button
+              type="button"
               onClick={() => setIsOpen(false)}
-              className="p-1 text-emerald-100 hover:text-white rounded-lg transition-colors cursor-pointer"
+              aria-label="Cerrar ventana de WhatsApp"
+              className="w-11 h-11 flex items-center justify-center text-emerald-100 hover:text-white rounded-lg transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
 
@@ -72,25 +89,27 @@ export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({
             {activeMotorcycle ? (
               <div className="flex items-center justify-between text-slate-700">
                 <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />
                   <div>
-                    <span className="text-[10px] font-bold text-slate-400 block uppercase">Contexto de tu consulta</span>
+                    <span className="text-[10px] font-bold text-slate-500 block uppercase">Contexto de tu consulta</span>
                     <span className="font-extrabold text-slate-900">{activeMotorcycle.modelName} ({activeMotorcycle.year})</span>
                   </div>
                 </div>
                 <button
+                  type="button"
                   onClick={onOpenGarageModal}
-                  className="text-[10px] font-bold text-[#E60012] hover:underline cursor-pointer"
+                  className="text-[10px] font-bold text-[#E60012] hover:underline cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] rounded"
                 >
                   Cambiar
                 </button>
               </div>
             ) : (
               <div className="flex items-center justify-between">
-                <span className="text-[11px] text-slate-500">¿Deseas verificar con un modelo específico?</span>
+                <span className="text-[11px] text-slate-600">¿Deseas verificar con un modelo específico?</span>
                 <button
+                  type="button"
                   onClick={onOpenGarageModal}
-                  className="text-[10px] font-extrabold text-[#E60012] bg-red-50 hover:bg-red-100 px-2 py-1 rounded border border-red-200 cursor-pointer"
+                  className="text-[10px] font-extrabold text-[#E60012] bg-red-50 hover:bg-red-100 px-2 py-1 rounded border border-red-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
                 >
                   + Seleccionar Moto
                 </button>
@@ -105,17 +124,19 @@ export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({
             </p>
 
             <form onSubmit={handleCustomSend} className="space-y-2">
+              <label htmlFor="whatsapp-custom-query" className="sr-only">Escribe tu consulta o referencia de repuesto</label>
               <textarea
+                id="whatsapp-custom-query"
                 value={customQuery}
                 onChange={(e) => setCustomQuery(e.target.value)}
                 placeholder="Escribe tu consulta o referencia de repuesto..."
-                className="w-full text-xs p-2.5 rounded-xl border border-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none resize-none h-20 text-slate-800 placeholder:text-slate-400"
+                className="w-full text-xs p-2.5 rounded-xl border border-slate-300 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 outline-none resize-none h-20 text-slate-900 placeholder:text-slate-500"
               />
               <button
                 type="submit"
-                className="w-full py-2.5 px-4 bg-[#25D366] hover:bg-emerald-600 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-2.5 px-4 min-h-[44px] bg-[#25D366] hover:bg-emerald-600 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#075E54]"
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-4 h-4" aria-hidden="true" />
                 <span>Enviar a WhatsApp</span>
               </button>
             </form>
@@ -126,13 +147,13 @@ export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({
                 href={getGeneralWhatsAppUrl(activeMotorcycle)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full p-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-lg text-[11px] font-medium flex items-center justify-between transition-colors cursor-pointer"
+                className="w-full p-2.5 bg-slate-50 hover:bg-slate-100 text-slate-800 rounded-lg text-[11px] font-bold flex items-center justify-between transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#075E54]"
               >
                 <span className="flex items-center gap-2">
-                  <PhoneCall className="w-3.5 h-3.5 text-emerald-600" />
+                  <PhoneCall className="w-3.5 h-3.5 text-emerald-600" aria-hidden="true" />
                   Abrir Chat Directo con Asesor
                 </span>
-                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <ChevronRight className="w-3.5 h-3.5 text-slate-500" aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -141,16 +162,15 @@ export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({
 
       {/* Floating Action Button */}
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="group relative flex items-center gap-2.5 bg-[#25D366] hover:bg-emerald-600 text-white p-3.5 sm:px-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
-        aria-label="Consultar por WhatsApp"
+        className="group relative flex items-center gap-2.5 bg-[#25D366] hover:bg-emerald-600 text-white p-3.5 sm:px-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-400"
+        aria-label={isOpen ? "Cerrar consulta por WhatsApp" : "Consultar por WhatsApp"}
       >
-        {/* Pulse effect */}
-        <span className="absolute -inset-1 rounded-full bg-[#25D366]/40 animate-ping -z-10 pointer-events-none"></span>
-
         <svg
           className="w-6 h-6 fill-current shrink-0"
           viewBox="0 0 24 24"
+          aria-hidden="true"
         >
           <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
         </svg>

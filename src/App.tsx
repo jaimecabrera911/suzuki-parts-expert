@@ -379,13 +379,14 @@ export default function App() {
 
               {/* Sort Dropdown */}
               <div className="flex items-center gap-2.5 self-start md:self-auto">
-                <label className="text-xs font-extrabold text-slate-500 uppercase tracking-wider shrink-0 flex items-center gap-1">
-                  <ArrowUpDown className="w-3.5 h-3.5 text-[#E60012]" /> Ordenar:
+                <label htmlFor="catalog-sort-select" className="text-xs font-extrabold text-slate-700 uppercase tracking-wider shrink-0 flex items-center gap-1">
+                  <ArrowUpDown className="w-3.5 h-3.5 text-[#E60012]" aria-hidden="true" /> Ordenar:
                 </label>
                 <select
+                  id="catalog-sort-select"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#E60012]/20 focus:border-[#E60012] cursor-pointer"
+                  className="bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#E60012]/20 focus:border-[#E60012] cursor-pointer"
                 >
                   <option value="relevance">Relevancia / Destacados</option>
                   <option value="price-asc">Precio: Menor a Mayor</option>
@@ -425,14 +426,15 @@ export default function App() {
               <div className="flex-1 w-full">
                 {filteredParts.length === 0 ? (
                   <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 max-w-lg mx-auto">
-                    <ShieldCheck className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+                    <ShieldCheck className="w-12 h-12 text-slate-400 mx-auto mb-3" aria-hidden="true" />
                     <h3 className="text-base font-bold text-slate-800">No se encontraron repuestos</h3>
                     <p className="text-xs text-slate-500 mt-1">
                       Ningún repuesto coincide con los criterios seleccionados (modelo, precio, categoría o compatibilidad).
                     </p>
                     <button
+                      type="button"
                       onClick={handleResetFilters}
-                      className="mt-5 px-5 py-2.5 bg-[#E60012] hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xs"
+                      className="mt-5 px-5 py-2.5 min-h-[44px] bg-[#E60012] hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
                     >
                       Restablecer Todos los Filtros
                     </button>
@@ -560,11 +562,11 @@ export default function App() {
       />
 
       {/* Footer strictly formatted as user design */}
-      <footer className="bg-slate-200/80 border-t border-slate-300 mt-16 py-10 text-slate-600 text-xs">
+      <footer className="bg-slate-200/80 border-t border-slate-300 mt-16 py-10 text-slate-700 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <div className="font-extrabold text-slate-900 uppercase text-sm mb-2">SUZUKI PARTS</div>
-            <p className="text-slate-500 text-[11px] leading-relaxed">
+            <p className="text-slate-600 text-[11px] leading-relaxed">
               © 2026 SUZUKI GENUINE PARTS | INDUSTRIAL PRECISION<br />
               Sistema oficial de consulta y suministro de repuestos con garantía de ajuste técnico OEM.
             </p>
@@ -572,8 +574,8 @@ export default function App() {
 
           <div className="md:text-right space-y-1">
             <div className="font-extrabold text-slate-800 text-[11px] uppercase mb-2">LEGAL & INFO</div>
-            <div className="space-y-1 text-slate-600">
-              <a href="#specs" onClick={(e) => { e.preventDefault(); setIsTutorialOpen(true); }} className="hover:text-slate-900 block">Technical Specifications</a>
+            <div className="space-y-1 text-slate-700">
+              <button type="button" onClick={() => setIsTutorialOpen(true)} className="hover:text-[#E60012] block text-left md:ml-auto cursor-pointer underline">Technical Specifications</button>
               <span className="block">OEM Verification Process</span>
               <span className="block">Shipping Policy & Warranty</span>
               <span className="block">Privacy Compliance</span>

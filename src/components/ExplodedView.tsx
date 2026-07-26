@@ -92,18 +92,22 @@ export const ExplodedView: React.FC<ExplodedViewProps> = ({
             </div>
             <div className="flex items-center gap-1.5">
               <button
+                type="button"
                 onClick={() => setZoomLevel(prev => Math.min(prev + 0.25, 2))}
-                className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors"
+                aria-label="Acercar zoom del plano"
+                className="w-11 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
                 title="Acercar Zoom"
               >
-                <ZoomIn className="w-4 h-4" />
+                <ZoomIn className="w-4 h-4" aria-hidden="true" />
               </button>
               <button
+                type="button"
                 onClick={() => setZoomLevel(prev => Math.max(prev - 0.25, 0.75))}
-                className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors"
+                aria-label="Alejar zoom del plano"
+                className="w-11 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
                 title="Alejar Zoom"
               >
-                <ZoomOut className="w-4 h-4" />
+                <ZoomOut className="w-4 h-4" aria-hidden="true" />
               </button>
               <span className="font-mono text-[11px] text-slate-400 px-2">{Math.round(zoomLevel * 100)}%</span>
             </div>
@@ -128,9 +132,11 @@ export const ExplodedView: React.FC<ExplodedViewProps> = ({
                 return (
                   <button
                     key={spot.itemNumber}
+                    type="button"
                     onClick={() => setSelectedPartId(spot.partId)}
+                    aria-label={`Punto de despiece #${spot.itemNumber}`}
                     style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
-                    className={`absolute -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full font-black text-xs flex items-center justify-center transition-all shadow-lg ${
+                    className={`absolute -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full font-black text-xs flex items-center justify-center transition-all shadow-lg cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#E60012] ${
                       isSelected
                         ? 'bg-[#E60012] text-white ring-4 ring-red-400/50 scale-125 z-30'
                         : 'bg-white text-slate-900 hover:bg-[#E60012] hover:text-white ring-2 ring-slate-900 z-20'
@@ -187,7 +193,7 @@ export const ExplodedView: React.FC<ExplodedViewProps> = ({
                 <h3 className="text-lg font-black text-slate-900 leading-snug">
                   {selectedPart.name}
                 </h3>
-                <div className="text-2xl font-black text-slate-900 mt-2">
+                <div className="text-2xl font-mono font-black text-slate-900 mt-2">
                   {formatCurrency(selectedPart.price)}
                 </div>
               </div>
@@ -201,19 +207,19 @@ export const ExplodedView: React.FC<ExplodedViewProps> = ({
                 }`}>
                   {isPartCompatible ? (
                     <>
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />
                       <span>100% Compatible con tu {activeMotorcycle.modelName} ({activeMotorcycle.year})</span>
                     </>
                   ) : (
                     <>
-                      <AlertTriangle className="w-4 h-4 text-[#E60012] shrink-0" />
+                      <AlertTriangle className="w-4 h-4 text-[#E60012] shrink-0" aria-hidden="true" />
                       <span>Incompatible con {activeMotorcycle.modelName} ({activeMotorcycle.year})</span>
                     </>
                   )}
                 </div>
               ) : (
                 <div className="bg-amber-50 border border-amber-200 p-3 rounded-xl text-xs text-amber-900 font-bold flex items-center gap-2">
-                  <Info className="w-4 h-4 text-amber-600 shrink-0" />
+                  <Info className="w-4 h-4 text-amber-600 shrink-0" aria-hidden="true" />
                   <span>Selecciona tu moto en el Garaje para validar tolerancia</span>
                 </div>
               )}
@@ -234,19 +240,21 @@ export const ExplodedView: React.FC<ExplodedViewProps> = ({
               {/* Action Buttons */}
               <div className="space-y-2 pt-2">
                 <button
+                  type="button"
                   onClick={() => onOpenPartDetail(selectedPart)}
-                  className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="w-full py-2.5 min-h-[44px] bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
                 >
-                  <Eye className="w-4 h-4" />
+                  <Eye className="w-4 h-4" aria-hidden="true" />
                   <span>Ver Ficha Técnica Completa</span>
                 </button>
 
                 <button
+                  type="button"
                   onClick={() => onAddToCart(selectedPart)}
                   disabled={activeMotorcycle ? !isPartCompatible : false}
-                  className="w-full py-3 bg-[#E60012] hover:bg-red-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3 min-h-[44px] bg-[#E60012] hover:bg-red-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
                 >
-                  <ShoppingBag className="w-4 h-4" />
+                  <ShoppingBag className="w-4 h-4" aria-hidden="true" />
                   <span>Añadir al Carrito</span>
                 </button>
               </div>
@@ -255,7 +263,7 @@ export const ExplodedView: React.FC<ExplodedViewProps> = ({
           ) : (
             <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400 space-y-3 my-auto">
               <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
-                <Info className="w-6 h-6" />
+                <Info className="w-6 h-6" aria-hidden="true" />
               </div>
               <p className="font-bold text-slate-700 text-sm">
                 Selecciona un punto en el plano
@@ -275,7 +283,7 @@ export const ExplodedView: React.FC<ExplodedViewProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-4 border-b border-slate-100">
           <div>
             <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-emerald-600" />
+              <ShieldCheck className="w-5 h-5 text-emerald-600" aria-hidden="true" />
               Repuestos e Imágenes Correspondientes a este Despiece
             </h3>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -326,18 +334,19 @@ export const ExplodedView: React.FC<ExplodedViewProps> = ({
                   <h4 className="text-xs font-bold text-slate-900 line-clamp-2 mb-1">
                     {partObj.name}
                   </h4>
-                  <div className="text-sm font-black text-[#E60012] mb-3">
+                  <div className="text-sm font-mono font-black text-[#E60012] mb-3">
                     {formatCurrency(partObj.price)}
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 pt-2 border-t border-slate-200/80">
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedPartId(spot.partId);
                     }}
-                    className={`flex-1 py-1.5 px-2 text-[11px] font-bold uppercase rounded-lg transition-colors text-center cursor-pointer ${
+                    className={`flex-1 py-2 px-2 text-[11px] min-h-[36px] font-bold uppercase rounded-lg transition-colors text-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] ${
                       isSelected
                         ? 'bg-[#E60012] text-white'
                         : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
@@ -346,14 +355,16 @@ export const ExplodedView: React.FC<ExplodedViewProps> = ({
                     {isSelected ? 'Seleccionado' : 'Ver en Plano'}
                   </button>
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       onOpenPartDetail(partObj);
                     }}
-                    className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors cursor-pointer"
+                    aria-label={`Ver ficha técnica de ${partObj.name}`}
+                    className="w-9 h-9 flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
                     title="Ver Ficha Técnica"
                   >
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-4 h-4" aria-hidden="true" />
                   </button>
                 </div>
               </div>

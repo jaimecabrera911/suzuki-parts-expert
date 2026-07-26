@@ -7,27 +7,51 @@ interface IdentificationGuideModalProps {
 }
 
 export const IdentificationGuideModal: React.FC<IdentificationGuideModalProps> = ({ isOpen, onClose }) => {
+  // Handle Escape key and body scroll lock
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-xs p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative border border-slate-200">
+    <div 
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="id-guide-modal-title"
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-xs p-4 overflow-y-auto"
+    >
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative border border-slate-200 my-auto"
+      >
         
         {/* Close Button */}
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 rounded-lg transition-colors"
-          aria-label="Cerrar"
+          aria-label="Cerrar guía de localización VIN"
+          className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center text-slate-500 hover:text-slate-700 rounded-lg transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
         >
-          <X className="w-5 h-5" />
+          <X className="w-5 h-5" aria-hidden="true" />
         </button>
 
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-red-100 text-[#E60012] flex items-center justify-center font-bold">
-            <Search className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-red-100 text-[#E60012] flex items-center justify-center font-bold shrink-0">
+            <Search className="w-5 h-5" aria-hidden="true" />
           </div>
           <div>
-            <h3 className="text-xl font-black text-slate-900">Guía de Localización VIN y Placa Técnica</h3>
+            <h3 id="id-guide-modal-title" className="text-xl font-black text-slate-900">Guía de Localización VIN y Placa Técnica</h3>
             <p className="text-xs text-slate-500">Ubicaciones físicas estándar en motocicletas Suzuki Genuine</p>
           </div>
         </div>
@@ -83,8 +107,9 @@ export const IdentificationGuideModal: React.FC<IdentificationGuideModalProps> =
 
         <div className="mt-8 flex justify-end">
           <button
+            type="button"
             onClick={onClose}
-            className="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-colors"
+            className="px-6 py-3 min-h-[44px] bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
           >
             Entendido, Volver
           </button>

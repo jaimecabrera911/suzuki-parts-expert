@@ -104,9 +104,33 @@ export const CatalogSidebarFilter: React.FC<CatalogSidebarFilterProps> = ({
     { id: 'electrico', label: 'Sistema Eléctrico', icon: Sparkles }
   ];
 
+  const getRelevantModelParts = () => {
+    return allParts.filter(part => {
+      // Filter by active motorcycle in garage if compatibility toggle is active
+      if (onlyCompatible && activeMotorcycle) {
+        const isCompatible = part.compatibility.some(c => {
+          if (c.modelId !== activeMotorcycle.modelId) return false;
+          if (activeMotorcycle.year < c.yearStart || activeMotorcycle.year > c.yearEnd) return false;
+          if (c.version && c.version !== activeMotorcycle.version) return false;
+          return true;
+        });
+        if (!isCompatible) return false;
+      }
+
+      // Filter by selected model dropdown if specific model chosen
+      if (selectedModelFilter !== 'all') {
+        const isModelMatch = part.compatibility.some(c => c.modelId === selectedModelFilter);
+        if (!isModelMatch) return false;
+      }
+
+      return true;
+    });
+  };
+
   const getCategoryCount = (catId: string) => {
-    if (catId === 'all') return allParts.length;
-    return allParts.filter(p => p.category === catId).length;
+    const relevantParts = getRelevantModelParts();
+    if (catId === 'all') return relevantParts.length;
+    return relevantParts.filter(p => p.category === catId).length;
   };
 
   const getModelCount = (modelId: string) => {
@@ -230,9 +254,18 @@ export const CatalogSidebarFilter: React.FC<CatalogSidebarFilterProps> = ({
           onClick={() => toggleSection('category')}
           className="w-full flex items-center justify-between py-1 text-xs font-extrabold uppercase tracking-wider text-slate-800 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] rounded"
         >
-          <span className="flex items-center gap-1.5">
-            <Layers className="w-3.5 h-3.5 text-[#E60012]" aria-hidden="true" /> Categorías
-          </span>
+          <div className="text-left">
+            <span className="flex items-center gap-1.5">
+              <Layers className="w-3.5 h-3.5 text-[#E60012]" aria-hidden="true" /> Categorías
+            </span>
+            <span className="text-[10px] text-slate-500 font-normal lowercase block">
+              {(onlyCompatible && activeMotorcycle)
+                ? `Filtrado por ${activeMotorcycle.modelName}`
+                : selectedModelFilter !== 'all'
+                ? `Filtrado por ${SUZUKI_MODELS.find(m => m.id === selectedModelFilter)?.name}`
+                : 'Conteo total (todos los modelos)'}
+            </span>
+          </div>
           {expandedSections.category ? <ChevronUp className="w-4 h-4 text-slate-500" aria-hidden="true" /> : <ChevronDown className="w-4 h-4 text-slate-500" aria-hidden="true" />}
         </button>
 

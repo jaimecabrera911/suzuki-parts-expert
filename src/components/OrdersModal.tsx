@@ -27,7 +27,7 @@ export const OrdersModal: React.FC<OrdersModalProps> = ({ orders }) => {
             Selecciona tu motocicleta en el Garaje, navega por el catálogo o diagramas de despiece y añade repuestos garantizados.
           </p>
           <a
-            href="#catalog"
+            href="#catalogo"
             className="inline-flex items-center justify-center px-6 py-3 min-h-[44px] bg-[#E60012] hover:bg-red-700 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012]"
           >
             Explorar Catálogo Suzuki OEM

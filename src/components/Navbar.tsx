@@ -42,12 +42,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button 
             type="button"
             role="button"
-            aria-label="Ir al Catálogo Suzuki Parts"
-            onClick={() => handleTabClick('catalog')}
+            aria-label="Ir al Inicio - Garaje Suzuki"
+            onClick={() => handleTabClick('garage')}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                handleTabClick('catalog');
+                handleTabClick('garage');
               }
             }}
             className="flex items-center gap-2.5 shrink-0 cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E60012] rounded-xl p-1"

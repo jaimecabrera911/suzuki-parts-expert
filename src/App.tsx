@@ -70,11 +70,37 @@ export default function App() {
     setSortBy('relevance');
   };
 
-  // Listen to URL hash for deep linking direct product page view (#producto=REF or #part=ID)
+  const navigateToTab = (tab: 'garage' | 'catalog' | 'schematics' | 'orders' | 'product-page', pathOverride?: string) => {
+    setActiveTab(tab);
+    let targetPath = '/garaje';
+    if (tab === 'catalog') targetPath = '/catalogo';
+    else if (tab === 'schematics') targetPath = '/despieces';
+    else if (tab === 'orders') targetPath = '/pedidos';
+    else if (pathOverride) targetPath = pathOverride;
+
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState(null, '', targetPath);
+    }
+  };
+
+  // Listen to URL path and hash changes for clean HTML5 SPA routing
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (hash.startsWith('#producto=')) {
+    const handleLocationChange = () => {
+      const pathname = window.location.pathname.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+
+      // Check product page route (/producto/REF or #producto=REF)
+      if (pathname.startsWith('/producto/')) {
+        const oem = decodeURIComponent(pathname.replace('/producto/', ''));
+        const found = SUZUKI_PARTS.find(
+          p => p.oemNumber.toLowerCase() === oem.toLowerCase() || p.id === oem
+        );
+        if (found) {
+          setSelectedPagePart(found);
+          setActiveTab('product-page');
+          return;
+        }
+      } else if (hash.startsWith('#producto=')) {
         const oem = decodeURIComponent(hash.replace('#producto=', ''));
         const found = SUZUKI_PARTS.find(
           p => p.oemNumber.toLowerCase() === oem.toLowerCase() || p.id === oem
@@ -82,34 +108,43 @@ export default function App() {
         if (found) {
           setSelectedPagePart(found);
           setActiveTab('product-page');
+          return;
         }
-      } else if (hash.startsWith('#part=')) {
-        const partId = decodeURIComponent(hash.replace('#part=', ''));
-        const found = SUZUKI_PARTS.find(p => p.id === partId);
-        if (found) {
-          setSelectedPagePart(found);
-          setActiveTab('product-page');
+      }
+
+      // Check clean path names
+      if (pathname === '/catalogo' || hash === '#catalogo' || hash === '#catalog') {
+        setActiveTab('catalog');
+      } else if (pathname === '/despieces' || hash === '#despieces' || hash === '#schematics') {
+        setActiveTab('schematics');
+      } else if (pathname === '/pedidos' || hash === '#pedidos' || hash === '#orders') {
+        setActiveTab('orders');
+      } else if (pathname === '/garaje' || pathname === '/' || hash === '#garaje' || hash === '#garage') {
+        if (pathname === '/') {
+          window.history.replaceState(null, '', '/garaje');
         }
+        setActiveTab('garage');
       }
     };
 
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    handleLocationChange();
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
   }, []);
 
   const handleOpenProductPage = (part: SuzukiPart) => {
     setSelectedPagePart(part);
     setActiveTab('product-page');
-    window.location.hash = `#producto=${part.oemNumber}`;
+    window.history.pushState(null, '', `/producto/${encodeURIComponent(part.oemNumber)}`);
   };
 
   const handleBackFromProductPage = () => {
     setSelectedPagePart(null);
-    setActiveTab('catalog');
-    if (window.location.hash) {
-      history.pushState("", document.title, window.location.pathname + window.location.search);
-    }
+    navigateToTab('catalog');
   };
 
   // Cart & Orders State
@@ -145,7 +180,7 @@ export default function App() {
   const handleSelectMotorcycle = (moto: ActiveMotorcycle) => {
     setActiveMotorcycle(moto);
     setOnlyCompatible(true);
-    setActiveTab('catalog');
+    navigateToTab('catalog');
 
     setTimeout(() => {
       const target = document.getElementById('catalog-products-section');
@@ -158,7 +193,7 @@ export default function App() {
   };
 
   const handleGoToProducts = () => {
-    setActiveTab('catalog');
+    navigateToTab('catalog');
     setTimeout(() => {
       const target = document.getElementById('catalog-products-section');
       if (target) {
@@ -218,7 +253,7 @@ export default function App() {
   const handleOrderComplete = (newOrder: any) => {
     setOrders(prev => [newOrder, ...prev]);
     setCartItems([]);
-    setActiveTab('orders');
+    navigateToTab('orders');
   };
 
   // Filter Parts List
@@ -282,7 +317,7 @@ export default function App() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={navigateToTab}
         onOpenGarageModal={() => setIsGarageModalOpen(true)}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenAI={() => setIsAIOpen(true)}
@@ -325,7 +360,7 @@ export default function App() {
                 </div>
 
                 <button
-                  onClick={() => setActiveTab('catalog')}
+                  onClick={() => navigateToTab('catalog')}
                   className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-colors flex items-center justify-center gap-2"
                 >
                   <span>Explorar Catálogo Completo</span>
@@ -486,11 +521,11 @@ export default function App() {
             onOpenGarageModal={() => setIsGarageModalOpen(true)}
             onViewSchematics={(sId) => {
               setSchematicTargetId(sId);
-              setActiveTab('schematics');
+              navigateToTab('schematics');
             }}
             onSelectRelatedPart={(p) => {
               setSelectedPagePart(p);
-              window.location.hash = `#producto=${p.oemNumber}`;
+              window.history.pushState(null, '', `/producto/${encodeURIComponent(p.oemNumber)}`);
             }}
           />
         )}
@@ -521,7 +556,7 @@ export default function App() {
         onOpenGarageModal={() => setIsGarageModalOpen(true)}
         onViewSchematics={(sId) => {
           setSchematicTargetId(sId);
-          setActiveTab('schematics');
+          navigateToTab('schematics');
         }}
         onSelectRelatedPart={(p) => setSelectedPartDetail(p)}
         onOpenAsPage={handleOpenProductPage}

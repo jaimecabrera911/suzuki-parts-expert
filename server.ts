@@ -3,6 +3,7 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
+import fs from "fs";
 import { SAMPLE_VINS, SUZUKI_PARTS, SUZUKI_MODELS } from "./src/data/suzukiData.js";
 
 dotenv.config();
@@ -158,7 +159,8 @@ Directrices de respuesta:
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
-    app.get("*", (req, res) => {
+    app.get("*", (req, res, next) => {
+      if (req.path.startsWith("/api")) return next();
       res.sendFile(path.join(distPath, "index.html"));
     });
   }

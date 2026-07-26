@@ -109,15 +109,22 @@ export const SearchableModelSelect: React.FC<SearchableModelSelectProps> = ({
 
         <div className="flex items-center gap-1 shrink-0">
           {selectedModel && !disabled && (
-            <button
-              type="button"
+            <span
+              role="button"
+              tabIndex={0}
               onClick={handleClear}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.stopPropagation();
+                  handleClear(e as any);
+                }
+              }}
               className="p-1 text-slate-500 hover:text-slate-700 rounded-md hover:bg-slate-100 transition-colors"
               title="Limpiar selección"
               aria-label="Limpiar selección de modelo"
             >
               <X className="w-3.5 h-3.5" />
-            </button>
+            </span>
           )}
           <ChevronDown
             className={`w-4 h-4 text-slate-500 transition-transform duration-200 ${

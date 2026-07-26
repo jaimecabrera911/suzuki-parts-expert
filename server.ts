@@ -2,7 +2,11 @@ import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
+import dotenv from "dotenv";
 import { SAMPLE_VINS, SUZUKI_PARTS, SUZUKI_MODELS } from "./src/data/suzukiData.js";
+
+dotenv.config();
+dotenv.config({ path: ".env.local" });
 
 async function startServer() {
   const app = express();

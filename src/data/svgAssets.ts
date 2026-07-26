@@ -341,87 +341,9 @@ export const PARTS_SVGS = {
 };
 
 export const DIAGRAM_SVGS = {
-  'diag-gixxer-engine': encodeSvg(`
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
-      <rect width="1200" height="800" fill="#020617"/>
-      <!-- CAD Grid -->
-      <path d="M0 100 H1200 M0 200 H1200 M0 300 H1200 M0 400 H1200 M0 500 H1200 M0 600 H1200 M0 700 H1200 M100 0 V800 M200 0 V800 M300 0 V800 M400 0 V800 M500 0 V800 M600 0 V800 M700 0 V800 M800 0 V800 M900 0 V800 M1000 0 V800 M1100 0 V800" stroke="#0f172a" stroke-width="1.5"/>
-
-      <g stroke="#38bdf8" stroke-width="3" fill="none">
-        <!-- Cylinder Head -->
-        <rect x="450" y="150" width="300" height="160" rx="10"/>
-        <!-- Spark Plug Chamber -->
-        <path d="M600 120 V220" stroke="#f43f5e" stroke-width="4"/>
-        
-        <!-- Cylinder Block -->
-        <rect x="470" y="310" width="260" height="220" rx="8"/>
-        <!-- Piston Inside -->
-        <rect x="500" y="370" width="200" height="120" rx="10" stroke="#eab308" stroke-width="4"/>
-
-        <!-- Fuel Injector Body -->
-        <path d="M380 220 L450 250" stroke="#a855f7" stroke-width="6" stroke-dasharray="10 5"/>
-
-        <!-- Crankcase Base -->
-        <rect x="400" y="530" width="400" height="200" rx="20"/>
-
-        <!-- Exploded Line Guides -->
-        <path d="M600 80 V720" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="6 6"/>
-        <path d="M300 250 H900" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="6 6"/>
-      </g>
-
-      <!-- Technical Annotations -->
-      <text x="600" y="60" font-family="monospace" font-size="22" font-weight="bold" fill="#38bdf8" text-anchor="middle">SUZUKI SEP 155cc ENGINE & INJECTION EXPLODED BLUEPRINT</text>
-      <text x="600" y="770" font-family="monospace" font-size="14" fill="#64748b" text-anchor="middle">TOLERANCE CODE: SZ-ENG-2024-OEM | PRECISION SCALE 1:1</text>
-    </svg>
-  `),
-
-  'diag-vstrom-intake': encodeSvg(`
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
-      <rect width="1200" height="800" fill="#020617"/>
-      <path d="M0 100 H1200 M0 200 H1200 M0 300 H1200 M0 400 H1200 M0 500 H1200 M0 600 H1200 M0 700 H1200 M100 0 V800 M200 0 V800 M300 0 V800 M400 0 V800 M500 0 V800 M600 0 V800 M700 0 V800 M800 0 V800 M900 0 V800 M1000 0 V800 M1100 0 V800" stroke="#0f172a" stroke-width="1.5"/>
-
-      <!-- Airbox Box Outline -->
-      <rect x="350" y="200" width="500" height="360" rx="25" fill="none" stroke="#48bb78" stroke-width="4"/>
-      <!-- Air Filter Box -->
-      <rect x="420" y="280" width="360" height="180" rx="15" fill="none" stroke="#f6ad55" stroke-width="4" stroke-dasharray="10 5"/>
-
-      <path d="M250 380 L350 380" stroke="#6366f1" stroke-width="8"/>
-      <text x="600" y="100" font-family="monospace" font-size="22" font-weight="bold" fill="#48bb78" text-anchor="middle">V-STROM 650 INTAKE AIRBOX SCHEMATIC</text>
-    </svg>
-  `),
-
-  'diag-gsxr-brake': encodeSvg(`
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
-      <rect width="1200" height="800" fill="#020617"/>
-      <path d="M0 100 H1200 M0 200 H1200 M0 300 H1200 M0 400 H1200 M0 500 H1200 M0 600 H1200 M0 700 H1200 M100 0 V800 M200 0 V800 M300 0 V800 M400 0 V800 M500 0 V800 M600 0 V800 M700 0 V800 M800 0 V800 M900 0 V800 M1000 0 V800 M1100 0 V800" stroke="#0f172a" stroke-width="1.5"/>
-
-      <!-- Brake Disc Circle -->
-      <circle cx="600" cy="400" r="280" fill="none" stroke="#e2e8f0" stroke-width="6"/>
-      <circle cx="600" cy="400" r="220" fill="none" stroke="#94a3b8" stroke-width="4" stroke-dasharray="16 8"/>
-
-      <!-- Tokico Caliper Radial Mount -->
-      <path d="M480 200 H720 V380 H480 Z" fill="none" stroke="#f43f5e" stroke-width="5"/>
-      <circle cx="540" cy="270" r="30" fill="none" stroke="#f43f5e" stroke-width="4"/>
-      <circle cx="660" cy="270" r="30" fill="none" stroke="#f43f5e" stroke-width="4"/>
-
-      <text x="600" y="80" font-family="monospace" font-size="22" font-weight="bold" fill="#f43f5e" text-anchor="middle">GSX-R1000 TOKICO MONOBLOC BRAKE SCHEMATIC</text>
-    </svg>
-  `),
-
-  'diag-transmission': encodeSvg(`
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
-      <rect width="1200" height="800" fill="#020617"/>
-      <path d="M0 100 H1200 M0 200 H1200 M0 300 H1200 M0 400 H1200 M0 500 H1200 M0 600 H1200 M0 700 H1200 M100 0 V800 M200 0 V800 M300 0 V800 M400 0 V800 M500 0 V800 M600 0 V800 M700 0 V800 M800 0 V800 M900 0 V800 M1000 0 V800 M1100 0 V800" stroke="#0f172a" stroke-width="1.5"/>
-
-      <!-- Drive Chain & Sprocket Assembly -->
-      <circle cx="350" cy="400" r="180" fill="none" stroke="#e60012" stroke-width="6"/>
-      <circle cx="350" cy="400" r="140" fill="none" stroke="#94a3b8" stroke-width="4" stroke-dasharray="12 6"/>
-      
-      <circle cx="850" cy="400" r="90" fill="none" stroke="#38bdf8" stroke-width="6"/>
-      
-      <path d="M350 220 H850 M350 580 H850" stroke="#e2e8f0" stroke-width="8" stroke-dasharray="20 10"/>
-
-      <text x="600" y="80" font-family="monospace" font-size="22" font-weight="bold" fill="#e60012" text-anchor="middle">TRANSMISSION & FINAL DRIVE SPROCKET SCHEMATIC</text>
-    </svg>
-  `)
+  'diag-gixxer-engine': '/diagrams/gixxer-engine.jpg',
+  'diag-vstrom-intake': '/diagrams/vstrom-intake.jpg',
+  'diag-gsxr-brake': '/diagrams/gsxr-brake.jpg',
+  'diag-transmission': '/diagrams/transmission.jpg'
 };
+

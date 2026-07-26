@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-25T00:00:00Z",
+  "title": "Design System: Suzuki Parts Expert",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Suzuki Red",
+        "canonical": "#E60012",
+        "tonalRamp": ["#7a0009", "#9a000b", "#b5000b", "#d10010", "#E60012", "#ff3344", "#ff6677", "#ff99a6"]
+      },
+      "primary-deep": {
+        "role": "primary",
+        "displayName": "Suzuki Red Deep",
+        "canonical": "#b5000b",
+        "tonalRamp": ["#5a0006", "#7a0009", "#9a000b", "#b5000b", "#d10010", "#E60012", "#ff3344", "#ff6677"]
+      },
+      "performance-blue": {
+        "role": "secondary",
+        "displayName": "Performance Blue",
+        "canonical": "#0A3088",
+        "tonalRamp": ["#051844", "#07205e", "#0A3088", "#1a4aaa", "#3d59b1", "#6680c8", "#99aadd", "#ccddff"]
+      },
+      "surface-bg": {
+        "role": "neutral",
+        "displayName": "Cool Surface",
+        "canonical": "#f7f9fb",
+        "tonalRamp": ["#c8d0d8", "#d5dce3", "#e3e8ed", "#eef1f5", "#f7f9fb", "#fafbfc", "#fcfdfe", "#ffffff"]
+      },
+      "neutral-900": {
+        "role": "neutral",
+        "displayName": "Dark Charcoal",
+        "canonical": "#191c1e",
+        "tonalRamp": ["#0a0b0c", "#101214", "#191c1e", "#2a2e32", "#3d4248", "#545b62", "#717a82", "#a3adb6"]
+      },
+      "compatible": {
+        "role": "status",
+        "displayName": "Compatible Green",
+        "canonical": "#059669",
+        "tonalRamp": ["#023d2e", "#03604a", "#059669", "#10b981", "#34d399", "#6ee7b7", "#a7f3d0", "#d1fae5"]
+      },
+      "warning": {
+        "role": "status",
+        "displayName": "Warning Amber",
+        "canonical": "#d97706",
+        "tonalRamp": ["#6b3c03", "#925204", "#d97706", "#f59e0b", "#fbbf24", "#fcd34d", "#fde68a", "#fef3c7"]
+      },
+      "incompatible": {
+        "role": "status",
+        "displayName": "Incompatible Red",
+        "canonical": "#dc2626",
+        "tonalRamp": ["#6e1313", "#991b1b", "#dc2626", "#ef4444", "#f87171", "#fca5a5", "#fecaca", "#fee2e2"]
+      },
+      "whatsapp": {
+        "role": "accent",
+        "displayName": "WhatsApp Green",
+        "canonical": "#25D366",
+        "tonalRamp": ["#126b33", "#1a9e4a", "#25D366", "#4ae080", "#74eb9f", "#9ef5bf", "#c5fadd", "#e8fdf0"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Brand name, section headers, hero text. Geist 900." },
+      "heading": { "displayName": "Heading", "purpose": "Card titles, modal headers. Geist 900." },
+      "body": { "displayName": "Body", "purpose": "Descriptions, explanatory text. Inter 400." },
+      "label": { "displayName": "Label", "purpose": "Category tags, status badges, filter labels. Inter 700 uppercase." },
+      "mono": { "displayName": "Mono", "purpose": "OEM numbers, spec values, prices. Geist monospace 700." }
+    },
+    "shadows": [
+      { "name": "card-rest", "value": "0 1px 2px rgba(0,0,0,0.04)", "purpose": "Subtle base shadow on resting cards." },
+      { "name": "card-hover", "value": "0 10px 25px -5px rgba(15,23,42,0.05)", "purpose": "Elevated shadow on card hover." },
+      { "name": "navbar", "value": "0 1px 3px rgba(0,0,0,0.05)", "purpose": "Persistent top shadow on sticky navbar." },
+      { "name": "selector-elevated", "value": "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1)", "purpose": "Elevated compatibility selector card." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default easing for state transitions." },
+      { "name": "ease-out-hover", "value": "cubic-bezier(0, 0, 0.2, 1)", "purpose": "Hover lift and shadow transitions." },
+      { "name": "duration-fast", "value": "150ms", "purpose": "Micro-interactions (focus rings, color shifts)." },
+      { "name": "duration-normal", "value": "300ms", "purpose": "Card hover transitions, menu open/close." },
+      { "name": "duration-slow", "value": "500ms", "purpose": "Image scale on hover." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary CTA for adding to cart, confirming actions. Red background, white text.",
+      "html": "<button class=\"ds-btn-primary\">Añadir</button>",
+      "css": ".ds-btn-primary { background: #E60012; color: #fff; padding: 10px 24px; font-family: Inter, sans-serif; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border: none; border-radius: 12px; cursor: pointer; transition: background 0.2s ease, transform 0.15s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.04); } .ds-btn-primary:hover { background: #b5000b; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(230,0,18,0.2); } .ds-btn-primary:focus-visible { outline: 2px solid #E60012; outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary actions, icon buttons, navigation items. Transparent with neutral text.",
+      "html": "<button class=\"ds-btn-ghost\">Cancelar</button>",
+      "css": ".ds-btn-ghost { background: transparent; color: #374151; padding: 10px 24px; font-family: Inter, sans-serif; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid transparent; border-radius: 12px; cursor: pointer; transition: background 0.15s ease, color 0.15s ease; } .ds-btn-ghost:hover { background: #f9fafb; color: #191c1e; } .ds-btn-ghost:focus-visible { outline: 2px solid #E60012; outline-offset: 2px; }"
+    },
+    {
+      "name": "Product Card",
+      "kind": "card",
+      "refersTo": "product-card",
+      "description": "Core catalog card with image, compatibility badge, specs, and action buttons.",
+      "html": "<div class=\"ds-product-card\"><div class=\"ds-card-badge ds-card-badge--compatible\"><svg></svg> 100% Compatible</div><div class=\"ds-card-image\"><img src=\"part.jpg\" alt=\"Part\" /></div><div class=\"ds-card-body\"><h3 class=\"ds-card-title\">Filtro de Aceite</h3><p class=\"ds-card-desc\">Filtro de aceite genuino Suzuki</p></div><div class=\"ds-card-footer\"><span class=\"ds-card-price\">$45.000</span><button class=\"ds-btn-primary\">Añadir</button></div></div>",
+      "css": ".ds-product-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease; } .ds-product-card:hover { box-shadow: 0 10px 25px -5px rgba(15,23,42,0.05); transform: translateY(-2px); } .ds-card-badge { padding: 8px 16px; font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid #e5e7eb; } .ds-card-badge--compatible { background: #ecfdf5; color: #065f46; border-color: #d1fae5; } .ds-card-badge--incompatible { background: #fef2f2; color: #991b1b; border-color: #fee2e2; } .ds-card-badge--warning { background: #fffbeb; color: #92400e; border-color: #fef3c7; } .ds-card-image { aspect-ratio: 4/3; background: #f3f4f6; overflow: hidden; } .ds-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; } .ds-product-card:hover .ds-card-image img { transform: scale(1.05); } .ds-card-body { padding: 16px 20px; flex: 1; } .ds-card-title { font-family: Geist, sans-serif; font-weight: 700; font-size: 0.875rem; color: #191c1e; line-height: 1.4; margin: 0; } .ds-card-desc { font-size: 0.75rem; color: #6b7280; margin: 6px 0 0; line-height: 1.5; } .ds-card-footer { padding: 12px 20px; border-top: 1px solid #f3f4f6; display: flex; align-items: center; justify-content: space-between; } .ds-card-price { font-family: Geist, monospace; font-weight: 900; font-size: 1rem; color: #191c1e; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-text",
+      "description": "Search bars, form fields. Neutral background with red focus ring.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Buscar por Ref. OEM...\" />",
+      "css": ".ds-input { width: 100%; padding: 8px 16px 8px 40px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; font-family: Inter, sans-serif; font-size: 0.875rem; color: #191c1e; transition: border-color 0.15s ease, box-shadow 0.15s ease; } .ds-input::placeholder { color: #9ca3af; } .ds-input:focus { outline: none; border-color: #E60012; box-shadow: 0 0 0 3px rgba(230,0,18,0.15); }"
+    },
+    {
+      "name": "Compatibility Badge",
+      "kind": "chip",
+      "refersTo": "badge-compatibility",
+      "description": "Traffic-light status indicator on product cards. Green/red/amber.",
+      "html": "<div class=\"ds-compat-badge ds-compat-badge--compatible\"><svg></svg> 100% Compatible</div>",
+      "css": ".ds-compat-badge { display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; width: 100%; border-bottom: 1px solid; } .ds-compat-badge--compatible { background: #ecfdf5; color: #065f46; border-color: #d1fae5; } .ds-compat-badge--incompatible { background: #fef2f2; color: #991b1b; border-color: #fee2e2; } .ds-compat-badge--warning { background: #fffbeb; color: #92400e; border-color: #fef3c7; }"
+    },
+    {
+      "name": "Filter Sidebar",
+      "kind": "custom",
+      "refersTo": "sidebar-filter",
+      "description": "Left sidebar with collapsible filter groups, checkboxes, and range sliders.",
+      "html": "<div class=\"ds-sidebar\"><div class=\"ds-sidebar-group\"><h4 class=\"ds-sidebar-label\">Categoría</h4><label class=\"ds-checkbox\"><input type=\"checkbox\" /> Filtros</label></div></div>",
+      "css": ".ds-sidebar { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 20px; width: 280px; position: sticky; top: 96px; } .ds-sidebar-group { margin-bottom: 16px; } .ds-sidebar-label { font-family: Inter, sans-serif; font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin: 0 0 8px; } .ds-checkbox { display: flex; align-items: center; gap: 8px; font-size: 0.8125rem; color: #374151; cursor: pointer; padding: 4px 0; } .ds-checkbox input[type=\"checkbox\"] { accent-color: #E60012; width: 16px; height: 16px; }"
+    },
+    {
+      "name": "Navbar Tab",
+      "kind": "nav",
+      "refersTo": "nav-tab",
+      "description": "Desktop navigation tab with active/inactive states.",
+      "html": "<button class=\"ds-nav-tab ds-nav-tab--active\">Catálogo</button>",
+      "css": ".ds-nav-tab { padding: 8px 12px; border-radius: 8px; font-family: Inter, sans-serif; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; border: none; background: transparent; color: #4b5563; cursor: pointer; transition: color 0.15s ease, background 0.15s ease; } .ds-nav-tab:hover { color: #191c1e; background: #f9fafb; } .ds-nav-tab--active { color: #E60012; background: #fef2f2; border-bottom: 2px solid #E60012; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Precision Workshop",
+    "overview": "A technical, utilitarian interface built for motorcycle owners and mechanics who value accuracy over aesthetics. The system prioritizes functional clarity — compatibility status, OEM references, and part specifications are always visible and unambiguous. The visual language borrows from workshop environments: structured, high-contrast, information-dense, with the Suzuki red serving as a precision accent rather than decorative color.",
+    "keyCharacteristics": [
+      "Compatibility-first information hierarchy: green (compatible), red (incompatible), amber (unvalidated) are the primary visual signals",
+      "Technical typography: uppercase labels, monospace OEM numbers, dense data tables",
+      "White cards on a cool-grey surface with minimal shadow, relying on border contrast for depth",
+      "Responsive sidebar-plus-grid catalog layout",
+      "Workshop-grade density: compact spacing, small font sizes, information packed into every surface"
+    ],
+    "rules": [
+      { "name": "The Traffic Light Rule", "body": "Every product card must show exactly one compatibility status color at the top. Green = compatible, red = incompatible, amber = no motorcycle selected.", "section": "colors" },
+      { "name": "The Red Accent Rule", "body": "Suzuki Red (#E60012) appears on ≤15% of any given screen area. Its scarcity preserves its power as a precision signal.", "section": "colors" },
+      { "name": "The Mono Lock Rule", "body": "OEM numbers, part specifications, and prices always render in Geist monospace.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Surfaces are flat at rest. Shadows appear only as a response to state (hover, sticky positioning, modal overlay).", "section": "elevation" }
+    ],
+    "dos": [
+      "Do always show the compatibility status badge at the top of every product card",
+      "Do use Geist monospace for all OEM numbers, spec values, and prices",
+      "Do use uppercase + letter-spacing for categorical labels",
+      "Do maintain the traffic-light status system consistently",
+      "Do keep card backgrounds white on the cool-grey surface",
+      "Do use rounded-2xl for containers, rounded-xl for interactive elements"
+    ],
+    "donts": [
+      "Don't use Suzuki Red as a大面积 background — it is a precision accent",
+      "Don't add decorative shadows to resting cards",
+      "Don't mix technical/monospace text with body text in the same line",
+      "Don't use warm or neutral-warm backgrounds",
+      "Don't add decorative elements, gradients, or visual flourishes",
+      "Don't break the compatibility status color system"
+    ]
+  }
+}

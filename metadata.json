@@ -1,0 +1,6 @@
+{
+  "name": "Suzuki Parts Expert",
+  "description": "Plataforma e-commerce para repuestos genuinos Suzuki con selector de compatibilidad garantizada, diagramas de despiece interactivos y búsqueda técnica OEM.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -219,9 +219,13 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
         <div
           className="fixed inset-0 z-[9999] bg-slate-950/95 backdrop-blur-md flex flex-col justify-between p-4 sm:p-6 select-none animate-in fade-in duration-200"
           onMouseUp={handleMouseUp}
+          onClick={() => setIsLightboxOpen(false)}
         >
           {/* Lightbox Header Bar */}
-          <div className="flex items-center justify-between gap-4 text-white z-10 bg-slate-900/90 p-3 rounded-2xl border border-slate-800 shadow-2xl">
+          <div 
+            className="flex items-center justify-between gap-4 text-white z-10 bg-slate-900/90 p-3 rounded-2xl border border-slate-800 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center gap-3">
               <span className="font-mono text-xs font-bold text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-2.5 py-1 rounded-lg">
                 OEM {part.oemNumber}
@@ -278,6 +282,7 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
             className="flex-1 relative flex items-center justify-center overflow-hidden my-4 cursor-grab active:cursor-grabbing"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseDrag}
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Previous Image Button */}
             {images.length > 1 && (
@@ -300,12 +305,12 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
                 transform: `translate(${lightboxPos.x}px, ${lightboxPos.y}px) scale(${lightboxScale})`,
               }}
             >
-              <div className="bg-slate-900/90 border border-slate-700/80 p-2 sm:p-4 rounded-3xl shadow-2xl flex items-center justify-center max-h-[75vh] max-w-[85vw] overflow-hidden ring-1 ring-white/10">
+              <div className="bg-slate-900 border border-slate-700/80 p-3 sm:p-5 rounded-3xl shadow-2xl flex items-center justify-center max-h-[75vh] max-w-[85vw] min-w-[280px] min-h-[250px] overflow-hidden ring-1 ring-white/10 relative">
                 <img
                   src={activeImage.url}
                   alt={part.name}
                   referrerPolicy="no-referrer"
-                  className="max-h-[68vh] max-w-[80vw] object-contain rounded-xl pointer-events-none drop-shadow-xl"
+                  className="max-h-[68vh] max-w-[80vw] w-auto h-auto object-contain rounded-xl pointer-events-none drop-shadow-2xl"
                 />
               </div>
             </div>
@@ -326,7 +331,10 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
           </div>
 
           {/* Lightbox Footer Thumbnail Selector */}
-          <div className="flex items-center justify-center gap-3 z-10 bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800 max-w-xl mx-auto overflow-x-auto shadow-xl">
+          <div 
+            className="flex items-center justify-center gap-3 z-10 bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800 max-w-xl mx-auto overflow-x-auto shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             {images.map((img, idx) => (
               <button
                 key={img.id}
